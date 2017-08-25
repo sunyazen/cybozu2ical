@@ -1,6 +1,6 @@
 <?php
 //--------------------------------------------------------------------------------------------------------
-// v10.4
+// v10.5
 //--------------------------------------------------------------------------------------------------------
 
 date_default_timezone_set('Asia/Tokyo');
@@ -199,7 +199,7 @@ while ( TRUE ) {
             $separate_info = getKeyword($work, '<div class="eventLink', '<span class="date">');
 
             // スケジュールIDを取得, event識別子: 'e' 追加
-            $schedule_id = 'e'.getKeyword($separate_info, 'scheduleMarkTitle0" name="event', '">');
+            $schedule_id = 'e'.getKeyword($separate_info, 'scheduleMarkTitle0 highlight-event', '"');
 
             $detail_url = "";
             $detail_work = "";
@@ -220,10 +220,11 @@ while ( TRUE ) {
             $schedule_memo = getScheduleMemo($separate_info);
 
             // スケジュールタイトルを取得
-            $schedule_title = getKeyword($separate_info, 'title="', '">');
+            $schedule_title = getKeyword($separate_info, 'sm" title="', '">');
 
             // 時刻指定を取得
             $eventTime = getKeyword($separate_info, 'class="eventDateTime">', '&nbsp;');
+            $eventTime = cutKeyword($eventTime, '<img src', '">'); // 「重複あり」アイコン除外, なければスルー
 
             // スケジュール年を取得
             $eventYear = getKeyword($separate_info, ';Date=da.', '.');
